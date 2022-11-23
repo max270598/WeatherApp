@@ -1,0 +1,42 @@
+/*
+  Localizable.strings
+  App
+
+  Created by Мах Ol on 19.11.2022.
+  
+*/
+
+
+// MARK: - Navigation
+
+"navigation.back" = "Back";
+
+// MARK: - Alerts
+
+"alerts.error-title" = "Error";
+"alerts.ok" = "OK";
+
+
+// MARK: - Common
+
+"common.metr-per-second" = "%s m/s";
+"common.mmHg" = "%s mmHg";
+"common.celsius" = "%s °C";
+"common.miles" = "%s miles";
+
+// MARK: - CityList
+
+"cityList.watching-cities" = "Watching cities";
+
+// MARK: - WeatherDetail
+
+"weatherDetail.daily-forecast" = "Daily forecast";
+"weatherDetail.weather-conditions" = "Weather conditions";
+"weatherDetail.feels-like" = "Feels like";
+"weatherDetail.pressure" = "Pressure";
+"weatherDetail.wind" = "Wind";
+"weatherDetail.visability" = "Visability";
+
+
+
+

@@ -2,33 +2,43 @@
 //  AppDelegate.swift
 //  WeatherApp
 //
-//  Created by Мах Ol on 12.11.2022.
+//  Created by Мах Ol on 19.11.2022.
 //
 
 import UIKit
+import IQKeyboardManagerSwift
+import SkeletonView
+import Resources
+import CityList
 
-@main
+@UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
-
-
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+    
+    var window: UIWindow?
+    
+    func application(
+        _ application: UIApplication,
+        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
+    ) -> Bool {
+        
+        
+        SkeletonAppearance.default.multilineHeight = 20
+        SkeletonAppearance.default.multilineCornerRadius = 5
+        IQKeyboardManager.shared.enable = true
+        IQKeyboardManager.shared.toolbarDoneBarButtonItemText = "Готово"
+        IQKeyboardManager.shared.shouldResignOnTouchOutside = true
+        IQKeyboardManager.shared.keyboardDistanceFromTextField = 20
+        //      Не забывать где надо в контроллере ставить функцию ниже, так как на iphone X и выше IQKeyboard багует из-за дополнительных safeAreas
+        //      self.extendedLayoutIncludesOpaqueBars = true эта функция позволяет вью заходить под status bar. Нужна потому что если navigationBar.isTranslusent = false - IQKeyboardmanager багует
+        
+        let initialViewController = CityListViewController()
+        initialViewController.viewModel = CityListViewModel()
+        let navigationController = UINavigationController(rootViewController: initialViewController)
+     
+        window = UIWindow(frame: UIScreen.main.bounds)
+        window?.rootViewController = navigationController
+        window?.makeKeyAndVisible()
         return true
-    }
-
-    // MARK: UISceneSession Lifecycle
-
-    func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
-        // Called when a new scene session is being created.
-        // Use this method to select a configuration to create the new scene with.
-        return UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
-    }
-
-    func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {
-        // Called when the user discards a scene session.
-        // If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
-        // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
     }
 
 
