@@ -12,16 +12,19 @@ import Resources
 
 private enum Constants {
     static let mainStackViewLeftRight: CGFloat = 20
-    static let mainStackViewHeight: CGFloat = 80
+    static let mainStackViewTopBottom: CGFloat = 10
+    static let weatherImageViewWidthHeight: CGFloat = 60
 }
 
 public class CityListCell: BaseTableViewCell {
+    
+    // MARK: - SubViews
     
     private lazy var mainStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.alignment = .center
         stackView.axis = .horizontal
-        stackView.distribution = .equalCentering
+        stackView.distribution = .fillEqually
         stackView.spacing = 8
         return stackView
     }()
@@ -77,7 +80,7 @@ public class CityListCell: BaseTableViewCell {
         backgroundColor = .clear
     }
     
-    // MARK: SetupConstraints
+    // MARK: Setup Constraints
     
     private func setupConstraints() {
         subStackView.addArrangedSubview(weaherImageView)
@@ -86,11 +89,12 @@ public class CityListCell: BaseTableViewCell {
         mainStackView.addArrangedSubview(subStackView)
         addSubview(mainStackView)
         
-        
+        weaherImageView.snp.makeConstraints {
+            $0.width.height.equalTo(Constants.weatherImageViewWidthHeight)
+        }
         mainStackView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview().inset(Constants.mainStackViewLeftRight)
-            $0.top.bottom.equalToSuperview()
-            $0.height.equalTo(Constants.mainStackViewHeight)
+            $0.top.bottom.equalToSuperview().inset(Constants.mainStackViewTopBottom)
         }
     }
     
@@ -100,7 +104,6 @@ public class CityListCell: BaseTableViewCell {
         guard let viewModel = viewModel as? CityListCellViewModel else {
             return
         }
-        
         cityLabel.text = viewModel.cityName
         tempLabel.text = viewModel.temp
         weaherImageView.kf.setImage(with: viewModel.imageUrl)

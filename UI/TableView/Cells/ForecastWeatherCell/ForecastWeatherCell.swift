@@ -11,6 +11,7 @@ import Resources
 
 private enum Constants {
     static let mainStackViewLeftRight: CGFloat = 20
+    static let mainStackViewTopBottom: CGFloat = 5
     static let weatherImageViewWidthHeight: CGFloat = 40
 }
 
@@ -82,7 +83,7 @@ public class ForecastWeatherCell: BaseTableViewCell {
         
         mainStackView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview().inset(Constants.mainStackViewLeftRight)
-            $0.top.bottom.equalToSuperview()
+            $0.top.bottom.equalToSuperview().inset(Constants.mainStackViewTopBottom)
         }
     }
     
