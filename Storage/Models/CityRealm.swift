@@ -26,8 +26,7 @@ public final class CityRealm: Object {
 extension CityRealm: IModelConvertible {
     
     public func asModel() -> CityModel {
-        return CityModel(id: id,
-                         name: name,
+        return CityModel(name: name,
                          latitude: latitude,
                          longitude: longitude,
                          currentWeather: nil,
@@ -39,7 +38,6 @@ extension CityModel: IRealmRepresentable {
     
     public func asRealm() -> CityRealm {
         let object = CityRealm()
-        object.id = id
         object.name = name
         object.latitude = latitude
         object.longitude = longitude

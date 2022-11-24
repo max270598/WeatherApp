@@ -30,6 +30,7 @@ public final class ChosenCitiesStorageService: IChosenCitiesStorageService {
     }
     
     public func removeCity(city: CityModel) {
-        storageClient.delete(id: city.id)
+        let predicate = NSPredicate(format: "name = %@", city.name)
+        storageClient.deleteItemsWithPredicate(predicate: predicate)
     }
 }

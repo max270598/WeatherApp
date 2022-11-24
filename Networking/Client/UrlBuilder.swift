@@ -46,7 +46,6 @@ final class UrlBuilder {
             url = url.appendingPathComponent(version)
         }
         url = url.appendingPathComponent(path)
-        // swiftlint:disable:next force_unwrapping
         var components = URLComponents(url: url, resolvingAgainstBaseURL: false)!
         if !parameters.isEmpty {
             components.queryItems = parameters.map { URLQueryItem(name: $0.key, value: $0.value) }

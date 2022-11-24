@@ -11,7 +11,7 @@ import Resources
 
 private enum Constants {
     static let titleLabelLeftRight: CGFloat = 20
-    static let titleLabelTopBottom: CGFloat = 15
+    static let titleLabelTopBottom: CGFloat = 10
 }
 
 final public class TitleSectionHeaderView: BaseHeaderFooterView {
@@ -20,7 +20,7 @@ final public class TitleSectionHeaderView: BaseHeaderFooterView {
     
     public let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = .boldSystemFont(ofSize: 16)
+        label.font = .boldSystemFont(ofSize: 20)
         label.textColor = Assets.Colors.textPrimary.color
         label.textAlignment = .left
         label.numberOfLines = 1

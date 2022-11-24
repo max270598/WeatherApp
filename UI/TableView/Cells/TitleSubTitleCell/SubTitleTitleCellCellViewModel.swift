@@ -15,7 +15,7 @@ public class SubTitleTitleCellViewModel: ICellIdentifiable {
     let title: String
     
     public init(subTitle: String, title: String) {
-        self.subTitle = title
-        self.title = subTitle
+        self.subTitle = subTitle
+        self.title = title
     }
 }

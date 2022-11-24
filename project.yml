@@ -6,7 +6,7 @@ options:
     iOS: 13.0
   preGenCommand: swiftgen
   groupOrdering:
-    - order: [WeatherApp, ChooseCity, CityList, WeatherDetails, UI, Core, Networking, Storage, Global, Domain]
+    - order: [WeatherApp, SearchCity, CityList, WeatherDetails, UI, Core, Networking, Domain, Storage, Global, Resources]
     
 targets:
   WeatherApp:
@@ -25,9 +25,8 @@ targets:
     info:
       path: WeatherApp/Supporting Files/Info.plist
       properties:
-        UILaunchStoryboardName: "Launch Screen"
+        UILaunchStoryboardName: "LaunchScreen"
         UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait]
-        NSLocationWhenInUseUsageDescription: "Приложение позволит определить ближайший к Вам город с доступным прогнозом погоды"
         CFBundleDisplayName: "Погода"
         CFBundleShortVersionString: "1.0.0"
         NSAppTransportSecurity:
@@ -43,13 +42,14 @@ targets:
       - target: Core
       - target: UI
       - target: CityList
-      - target: ChooseCity
+      - target: SearchCity
       - target: WeatherDetails
+      - target: Models
+      - target: Global
       - target: Networking
       - target: Domain
       - target: Storage
       - target: Resources
-      - package: SkeletonView
       - package: SnapKit
       - package: IQKeyboardManagerSwift
       - package: RealmSwift
@@ -109,7 +109,6 @@ targets:
       path: UI/Supporting Files/Info.plist
     dependencies:
       - target: Core
-      - package: SkeletonView
       - package: SnapKit
       - package: Kingfisher
       
@@ -136,30 +135,30 @@ targets:
     sources: [CityList]
     dependencies:
       - target: WeatherDetails
+      - target: SearchCity
       - target: Core
       - target: UI
       - target: Storage
       - target: Networking
       - target: Models
-      - package: SkeletonView
       - package: SnapKit
       - package: RealmSwift
     info:
       path: CityList/Supporting Files/Info.plist
     
-  ChooseCity:
+  SearchCity:
     templates:
       - Framework
-    sources: [ChooseCity]
+    sources: [SearchCity]
     dependencies:
       - target: Core
       - target: UI
       - target: Networking
-      - package: SkeletonView
+      - target: Models
       - package: SnapKit
       - package: RealmSwift
     info:
-      path: ChooseCity/Supporting Files/Info.plist
+      path: SearchCity/Supporting Files/Info.plist
       
   WeatherDetails:
     templates:
@@ -170,7 +169,7 @@ targets:
       - target: UI
       - target: Storage
       - target: Networking
-      - package: SkeletonView
+      - target: Models
       - package: SnapKit
       - package: RealmSwift
     info:
@@ -207,10 +206,6 @@ packages:
   SnapKit:
     url: https://github.com/SnapKit/SnapKit.git
     from: "5.6"
-    
-  SkeletonView:
-    url: https://github.com/Juanpe/SkeletonView.git
-    from: 1.7.0
     
   Kingfisher:
     url: https://github.com/onevcat/Kingfisher.git

@@ -34,7 +34,7 @@ public struct WeatherModel {
         self.weatherDetail = dto.weatherDetail.map { WeatherDetailModel(dto: $0) }
         self.clouds = .init(dto: dto.clouds)
         self.wind = .init(dto: dto.wind)
-        self.visibility = dto.visibility
+        self.visibility = dto.visibility / 1000
         self.dtTxt = dto.dtTxt
     }
 }

@@ -17,9 +17,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="WeatherApp" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GKT-Jq-f8S">
-                                <rect key="frame" x="139.5" y="144" width="135.5" height="30"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="launchScreen" translatesAutoresizingMaskIntoConstraints="NO" id="Dau-av-YpD">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="906"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="WeatherApp" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3yX-16-BrW">
+                                <rect key="frame" x="123" y="429.5" width="168" height="37"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="31"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -27,8 +30,12 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="GKT-Jq-f8S" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="100" id="Uhb-Rx-LHY"/>
-                            <constraint firstItem="GKT-Jq-f8S" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="xta-cl-5fh"/>
+                            <constraint firstItem="Dau-av-YpD" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="M8R-k5-ZFW"/>
+                            <constraint firstAttribute="bottom" secondItem="Dau-av-YpD" secondAttribute="bottom" constant="-10" id="dla-KS-kWf"/>
+                            <constraint firstItem="3yX-16-BrW" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="f6U-Ix-6e8"/>
+                            <constraint firstItem="3yX-16-BrW" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="p3J-4e-QPn"/>
+                            <constraint firstItem="Dau-av-YpD" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="wdn-sq-LE1"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Dau-av-YpD" secondAttribute="trailing" id="xJW-ia-ekd"/>
                         </constraints>
                     </view>
                 </viewController>
@@ -38,6 +45,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="launchScreen" width="1350" height="2400"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

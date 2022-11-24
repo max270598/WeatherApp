@@ -6,6 +6,13 @@
   
 */
 
+// MARK: - Keyboard
+
+"keyboard.ready" = "Ready";
+
+// MARK: - UISearchBar
+
+"searchBar.cancel" = "Cancel";
 
 // MARK: - Navigation
 
@@ -14,19 +21,25 @@
 // MARK: - Alerts
 
 "alerts.error-title" = "Error";
+"alerts.something-went-wrong" = "Something went wrong";
 "alerts.ok" = "OK";
-
 
 // MARK: - Common
 
 "common.metr-per-second" = "%s m/s";
 "common.mmHg" = "%s mmHg";
 "common.celsius" = "%s °C";
-"common.miles" = "%s miles";
+"common.km" = "%s km";
+
+// MARK: - CitySearch
+
+"citySearch.search-city" = "Search city";
+"citySearch.city-name" = "City name";
 
 // MARK: - CityList
 
 "cityList.watching-cities" = "Watching cities";
+"cityList.no-cities-selected" = "No cities selected. Choose city by pressing plus button";
 
 // MARK: - WeatherDetail
 

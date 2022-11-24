@@ -33,7 +33,6 @@ public final class NetworkClient: INetworkClient {
     lazy var decoder: JSONDecoder = {
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .iso8601
-        decoder.keyDecodingStrategy = .convertFromSnakeCase
         return decoder
     }()
     
@@ -55,15 +54,7 @@ public final class NetworkClient: INetworkClient {
             print("Response url \(String(describing: response.url?.absoluteString))")
             switch response.statusCode {
             case 200..<300:
-                print()
-                if data.isEmpty,
-                   ResponseType.self is EmptyResponse.Type,
-                   let response = EmptyResponse() as? ResponseType
-                {
-                    return response
-                } else {
-                    return try await decoding(data: data, responseType: ResponseType.self)
-                }
+                return try await decoding(data: data, responseType: ResponseType.self)
             case 401:
                 throw NetworkRequestError.tokenExpired(request)
             case let code:
@@ -105,15 +96,7 @@ public final class NetworkClient: INetworkClient {
             print("Response url \(String(describing: response.url?.absoluteString))")
             switch response.statusCode {
             case 200..<300:
-                print()
-                if data.isEmpty,
-                   ResponseType.self is EmptyResponse.Type,
-                   let response = EmptyResponse() as? ResponseType
-                {
-                    result = .success(response)
-                } else {
-                    result = self.decoding(data: data, responseType: ResponseType.self)
-                }
+                result = self.decoding(data: data, responseType: ResponseType.self)
             case 401:
                 result = .failure(NetworkRequestError.tokenExpired(request))
             case let code:
@@ -191,7 +174,4 @@ public final class NetworkClient: INetworkClient {
         }
         return result
     }
-}
-
-public struct EmptyResponse: Codable{
 }

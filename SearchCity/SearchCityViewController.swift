@@ -1,26 +1,27 @@
 //
-//  WeatherDetailsViewController.swift
-//  WeatherDetails
+//  SearchCityViewController.swift
+//  ChooseCity
 //
-//  Created by Мах Ol on 23.11.2022.
+//  Created by Мах Ol on 24.11.2022.
 //
 
 import UIKit
-import Resources
 import UI
+import SnapKit
+import Resources
 
-public class WeatherDetailsViewController: UIViewController {
-
+public class SearchCityViewController: UIViewController {
+    
     // MARK: - Dependencies
 
-    public var viewModel: WeatherDetailsViewModel!
+    public var viewModel: SearchCityViewModel!
 
     // MARK: - Subviews
 
    private lazy var tableView: UITableView = {
        let tableView = UITableView(frame: .zero, style: .grouped)
        tableView.backgroundColor = .clear
-       tableView.separatorStyle = .none
+       tableView.separatorStyle = .singleLine
        tableView.allowsSelection = true
        tableView.estimatedRowHeight = 75
        tableView.rowHeight = UITableView.automaticDimension
@@ -30,6 +31,17 @@ public class WeatherDetailsViewController: UIViewController {
         return tableView
     }()
     
+    private lazy var searchController: UISearchController = {
+        let searchVC = UISearchController(searchResultsController: nil)
+        searchVC.searchResultsUpdater = self
+        searchVC.searchBar.delegate = self
+        searchVC.obscuresBackgroundDuringPresentation = false
+        searchVC.searchBar.setValue(L10n.SearchBar.cancel, forKey: "cancelButtonText")
+        searchVC.searchBar.placeholder = L10n.CitySearch.cityName
+        definesPresentationContext = true
+        return searchVC
+    }()
+    
     // MARK: - Lifecycle
 
     public override func viewDidLoad() {
@@ -37,15 +49,15 @@ public class WeatherDetailsViewController: UIViewController {
         setup()
         setupConstraints()
         setupBindings()
-        viewModel.viewDidLoad()
-
-        // Do any additional setup after loading the view.
     }
     
     // MARK: - Setup
     
     private func setup() {
+        tableView.tableHeaderView = searchController.searchBar
         view.backgroundColor = Assets.Colors.backgroundPrimary.color
+        title = L10n.CitySearch.searchCity
+        navigationItem.backButtonTitle = L10n.Navigation.back
         registerCells()
     }
     
@@ -59,10 +71,6 @@ public class WeatherDetailsViewController: UIViewController {
     // MARK: - Setup Bindings
     
     private func setupBindings() {
-        viewModel.navigationTitle.bind { [weak self] in
-            self?.title = $0
-        }
-        
         viewModel.sections.bind { [weak self] _ in
             self?.tableView.reloadData()
         }
@@ -78,18 +86,15 @@ public class WeatherDetailsViewController: UIViewController {
     // MARK: - Private
     
     private func registerCells() {
-        tableView.register(WeatherDetailHeadlineCell.self, forCellReuseIdentifier: "WeatherDetailHeadlineCell")
-        tableView.register(ForecastWeatherCell.self, forCellReuseIdentifier: "ForecastWeatherCell")
-        tableView.register(SubTitleTitleCell.self, forCellReuseIdentifier: "SubTitleTitleCell")
-        tableView.register(TitleSectionHeaderView.self, forHeaderFooterViewReuseIdentifier: "TitleSectionHeaderView")
+        tableView.register(TitleCell.self, forCellReuseIdentifier: "TitleCell")
     }
 }
 
 // MARK: - UITableViewDelegate
 
-extension WeatherDetailsViewController: UITableViewDelegate {
+extension SearchCityViewController: UITableViewDelegate {
     
-    public  func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    public func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         guard viewModel.sections.value[section].headerViewModel != nil else { return 0 }
         return UITableView.automaticDimension
     }
@@ -106,7 +111,7 @@ extension WeatherDetailsViewController: UITableViewDelegate {
 
 // MARK: - UITableViewDataSource
 
-extension WeatherDetailsViewController: UITableViewDataSource {
+extension SearchCityViewController: UITableViewDataSource {
     
     public func numberOfSections(in tableView: UITableView) -> Int {
         return viewModel.sections.value.count
@@ -124,8 +129,28 @@ extension WeatherDetailsViewController: UITableViewDataSource {
         return cell ?? UITableViewCell()
     }
     
-    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        viewModel.headLineRowIsVisible(isVisible: tableView.isCellVisible(section: 0, row: 0))
+    public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        viewModel.didSelectRow(indexPath: indexPath)
+        searchController.isActive = false
+        dismiss(animated: true)
+    }
+}
+
+// MARK: - UISearchResultsUpdating
+
+extension SearchCityViewController: UISearchResultsUpdating {
+    
+    public func updateSearchResults(for searchController: UISearchController) {
+        viewModel.fetchLocation(forPlaceCalled: searchController.searchBar.text ?? "")
+    }
+}
+
+// MARK: - UISearchBarDelegate
+
+extension SearchCityViewController: UISearchBarDelegate {
+    
+    public func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        dismiss(animated: true)
     }
 }
 

@@ -10,39 +10,37 @@ import UI
 import SnapKit
 import Resources
 import WeatherDetails
+import SearchCity
 
 public class CityListViewController: UIViewController {
     
     // MARK: - Dependencies
-
+    
     public var viewModel: CityListViewModel!
-
+    
     // MARK: - Subviews
-
-   private lazy var tableView: UITableView = {
-       let tableView = UITableView(frame: .zero, style: .grouped)
-       tableView.backgroundColor = .clear
-       tableView.separatorStyle = .singleLine
-       tableView.allowsSelection = true
-       tableView.estimatedRowHeight = 75
-       tableView.rowHeight = UITableView.automaticDimension
-       tableView.backgroundColor = .clear
-       tableView.delegate = self
-       tableView.dataSource = self
+    
+    private lazy var tableView: UITableView = {
+        let tableView = UITableView(frame: .zero, style: .grouped)
+        tableView.backgroundColor = .clear
+        tableView.separatorStyle = .singleLine
+        tableView.allowsSelection = true
+        tableView.estimatedRowHeight = 75
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.backgroundColor = .clear
+        tableView.delegate = self
+        tableView.dataSource = self
         return tableView
     }()
     
     // MARK: - Lifecycle
-
-
+    
     public override func viewDidLoad() {
         super.viewDidLoad()
+        viewModel.viewDidLoad()
         setup()
         setupConstraints()
         setupBindings()
-        viewModel.viewDidLoad()
-
-        // Do any additional setup after loading the view.
     }
     
     // MARK: - Setup
@@ -50,6 +48,9 @@ public class CityListViewController: UIViewController {
     private func setup() {
         view.backgroundColor = Assets.Colors.backgroundPrimary.color
         title = L10n.CityList.watchingCities
+        navigationItem.backButtonTitle = L10n.Navigation.back
+        let plusBarButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(plusButtonTapped(_:)))
+        navigationItem.rightBarButtonItem = plusBarButton
         registerCells()
     }
     
@@ -67,8 +68,8 @@ public class CityListViewController: UIViewController {
             self?.tableView.reloadData()
         }
         
-        viewModel.error.bind { [weak self] in
-            let alertVC = UIAlertController(title: L10n.Alerts.errorTitle, message: $0.description, preferredStyle: .alert)
+        viewModel.error?.bind { [weak self] error in
+            let alertVC = UIAlertController(title: L10n.Alerts.errorTitle, message: L10n.Alerts.somethingWentWrong, preferredStyle: .alert)
             let alertAction = UIAlertAction(title: L10n.Alerts.ok, style: .cancel)
             alertVC.addAction(alertAction)
             self?.present(alertVC, animated: true)
@@ -78,14 +79,20 @@ public class CityListViewController: UIViewController {
     // MARK: - Routing
     
     private func routeToDetails(indexPath: IndexPath) {
-        let city = viewModel.cities[indexPath.row]
-        let weatherDetailsVM = WeatherDetailsViewModel(city: city)
-        let weatherDetailsVC = WeatherDetailsViewController()
-        weatherDetailsVC.viewModel = weatherDetailsVM
-        navigationController?.pushViewController(weatherDetailsVC, animated: true)
+        let vc = viewModel.prepareController(route: .details(indexPath: indexPath))
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    private func routeToSearch() {
+        let vc = viewModel.prepareController(route: .search)
+        present(vc, animated: true)
     }
     
     // MARK: - Private
+    
+    @objc private func plusButtonTapped(_ sedner: UIBarButtonItem) {
+        routeToSearch()
+    }
     
     private func registerCells() {
         tableView.register(CityListCell.self, forCellReuseIdentifier: "CityListCell")
@@ -138,11 +145,10 @@ extension CityListViewController: UITableViewDataSource {
     public func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
     }
-
+    
     public func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if (editingStyle == .delete) {
             viewModel.removeRow(indexPath: indexPath)
-            // handle delete (by removing the data from your array and updating the tableview)
         }
     }
 }

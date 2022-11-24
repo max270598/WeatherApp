@@ -18,13 +18,15 @@ public class WeatherDetailsViewModel {
     
     // MARK: - Dependencies
     
-    let networkClient: INetworkClient = NetworkClient()
+    private let networkClient: INetworkClient = NetworkClient()
     
     // MARK: - Properties
     
     var sections: Dynamic<[ISectionRowsRepresentable]> = Dynamic<[ISectionRowsRepresentable]>([])
-    var error: Dynamic<NetworkRequestError?> = Dynamic<NetworkRequestError?>(nil)
+    var error: Dynamic<NetworkRequestError>?
+    var navigationTitle: Dynamic<String?> = Dynamic<String?>(nil)
     var city: CityModel
+    private var isFirstLoad: Bool = true
     
     // MARK: - Initialize
     
@@ -45,12 +47,28 @@ public class WeatherDetailsViewModel {
         
         networkClient.send(request) { [weak self] (result: Result<DailyWeatherResponce, NetworkRequestError>) in
             if case let .success(response) = result {
-                self?.city.weekWeather = response.list.map { WeatherModel(dto: $0) }
-                self?.buildSections()
+                DispatchQueue.main.async {
+                    self?.city.weekWeather = response.list.map { WeatherModel(dto: $0) }
+                    self?.buildSections()
+                }
             }
             if case let .failure(error) = result {
-                self?.error.value = error
+                self?.error?.value = error
             }
+        }
+    }
+    
+    // MARK: - Actions
+    
+    func headLineRowIsVisible(isVisible: Bool) {
+        guard !isFirstLoad else { return }
+        if isVisible {
+            navigationTitle.value = nil
+        } else {
+            let cityName = city.name
+            let temp = String(city.currentWeather?.weatherInfo.temp)
+            let str = "\(cityName), \(L10n.Common.celsius(temp))"
+            navigationTitle.value = str
         }
     }
     
@@ -68,10 +86,17 @@ public class WeatherDetailsViewModel {
         sectionVMs.append(conditionSectionVM)
         
         sections.value = sectionVMs
+        isFirstLoad = false
     }
     
     private func createHeadlineSection() -> BaseSectionViewModel {
-        let rowVM: ICellIdentifiable = WeatherDetailHeadlineViewModel(cityName: city.name, temp: String(city.currentWeather?.weatherInfo.temp), description: city.currentWeather?.weatherDetail.first?.weatherDescription)
+        
+        let temp = String(city.currentWeather?.weatherInfo.temp)
+        let rowVM = WeatherDetailHeadlineViewModel(
+            cityName: city.name,
+            temp: L10n.Common.celsius(temp),
+            description: city.currentWeather?.weatherDetail.first?.weatherDescription
+        )
         
         let sectionVM = BaseSectionViewModel(rowViewModels: [rowVM], headerViewModel: nil)
         return sectionVM
@@ -103,7 +128,7 @@ public class WeatherDetailsViewModel {
         
         let visability = String(city.currentWeather?.visibility)
         let visabilityCellVM = SubTitleTitleCellViewModel(subTitle: L10n.WeatherDetail.visability,
-                                                          title: L10n.Common.miles(visability))
+                                                          title: L10n.Common.km(visability))
         
         rowVMs.append(feelLikeCellVM)
         rowVMs.append(pressureCellVM)
@@ -116,15 +141,13 @@ public class WeatherDetailsViewModel {
     }
     
     private func createForecastWeatherCellVM(weather: WeatherModel) -> ForecastWeatherCellViewModel {
-        let dayName = Date.dayOfWeek(timestamp: weather.dt)
+        let dayAndTime = Date.dayAndTime(timestamp: weather.dt)
         let icon = weather.weatherDetail.first?.icon
-        let maxTemp = String(weather.weatherInfo.tempMax)
-        let minTemp = String(weather.weatherInfo.tempMin)
+        let temp = String(weather.weatherInfo.temp)
         let cellVM = ForecastWeatherCellViewModel (
-            dayName: dayName,
+            dayAndTime: dayAndTime,
             imageUrl: GlobalConstants.OpenWeatherIconUrls.iconUrl(iconName: icon ?? ""),
-            maxTemp: L10n.Common.celsius(maxTemp),
-            minTemp: L10n.Common.celsius(minTemp)
+            temp: L10n.Common.celsius(temp)
         )
         return cellVM
     }
@@ -133,6 +156,4 @@ public class WeatherDetailsViewModel {
         let cellVM = SubTitleTitleCellViewModel(subTitle: subTitle, title: title)
         return cellVM
     }
-    
 }
-

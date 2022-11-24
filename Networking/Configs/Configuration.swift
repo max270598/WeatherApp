@@ -22,16 +22,14 @@ public final class Configuration {
     }()
 
     func apiUrl() -> URL {
-        // swiftlint:disable force_unwrapping
         switch self.environment {
         case .local:
-            return URL(string: "http://localhost:3000")!
+            return URL(string: "")!
         case .dev:
             return URL(string: "https://api.openweathermap.org/data")!
         case .prod:
             return URL(string: "")!
         }
-        // swiftlint:enable force_unwrapping
     }
 }
 

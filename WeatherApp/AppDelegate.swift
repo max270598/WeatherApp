@@ -7,7 +7,6 @@
 
 import UIKit
 import IQKeyboardManagerSwift
-import SkeletonView
 import Resources
 import CityList
 
@@ -21,15 +20,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
     ) -> Bool {
         
-        
-        SkeletonAppearance.default.multilineHeight = 20
-        SkeletonAppearance.default.multilineCornerRadius = 5
         IQKeyboardManager.shared.enable = true
-        IQKeyboardManager.shared.toolbarDoneBarButtonItemText = "Готово"
+        IQKeyboardManager.shared.toolbarDoneBarButtonItemText = L10n.Keyboard.ready
         IQKeyboardManager.shared.shouldResignOnTouchOutside = true
         IQKeyboardManager.shared.keyboardDistanceFromTextField = 20
-        //      Не забывать где надо в контроллере ставить функцию ниже, так как на iphone X и выше IQKeyboard багует из-за дополнительных safeAreas
-        //      self.extendedLayoutIncludesOpaqueBars = true эта функция позволяет вью заходить под status bar. Нужна потому что если navigationBar.isTranslusent = false - IQKeyboardmanager багует
         
         let initialViewController = CityListViewController()
         initialViewController.viewModel = CityListViewModel()

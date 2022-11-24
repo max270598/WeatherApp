@@ -28,7 +28,7 @@ public class WeatherDetailHeadlineCell: BaseTableViewCell {
         let label = UILabel()
         label.numberOfLines = 0
         label.textAlignment = .left
-        label.font = .systemFont(ofSize: 20)
+        label.font = .systemFont(ofSize: 24)
         label.textColor = Assets.Colors.textPrimary.color
 
         return label
@@ -38,7 +38,7 @@ public class WeatherDetailHeadlineCell: BaseTableViewCell {
         let label = UILabel()
         label.numberOfLines = 1
         label.textAlignment = .center
-        label.font = .systemFont(ofSize: 20)
+        label.font = .systemFont(ofSize: 24)
         label.textColor = Assets.Colors.textPrimary.color
         return label
     }()
@@ -74,9 +74,9 @@ public class WeatherDetailHeadlineCell: BaseTableViewCell {
     // MARK: SetupConstraints
     
     private func setupConstraints() {
-        mainStackView.addArrangedSubview(descriptionLabel)
-        mainStackView.addArrangedSubview(tempLabel)
         mainStackView.addArrangedSubview(cityLabel)
+        mainStackView.addArrangedSubview(tempLabel)
+        mainStackView.addArrangedSubview(descriptionLabel)
         addSubview(mainStackView)
         
         

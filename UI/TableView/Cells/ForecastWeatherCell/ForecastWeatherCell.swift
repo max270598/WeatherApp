@@ -11,7 +11,7 @@ import Resources
 
 private enum Constants {
     static let mainStackViewLeftRight: CGFloat = 20
-    static let weatherImageViewWidthHeight: CGFloat = 30
+    static let weatherImageViewWidthHeight: CGFloat = 40
 }
 
 public class ForecastWeatherCell: BaseTableViewCell {
@@ -20,8 +20,7 @@ public class ForecastWeatherCell: BaseTableViewCell {
         let stackView = UIStackView()
         stackView.alignment = .center
         stackView.axis = .horizontal
-        stackView.distribution = .equalSpacing
-        stackView.spacing = 20
+        stackView.distribution = .equalCentering
         return stackView
     }()
     
@@ -40,21 +39,12 @@ public class ForecastWeatherCell: BaseTableViewCell {
         return imageView
     }()
     
-    private lazy var maxTempLabel: UILabel = {
+    private lazy var tempLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 1
-        label.textAlignment = .center
+        label.textAlignment = .left
         label.font = .systemFont(ofSize: 16)
         label.textColor = Assets.Colors.textPrimary.color
-        return label
-    }()
-    
-    private lazy var minTempLabel: UILabel = {
-        let label = UILabel()
-        label.numberOfLines = 1
-        label.textAlignment = .center
-        label.font = .systemFont(ofSize: 16)
-        label.textColor = Assets.Colors.textSecondary.color
         return label
     }()
     
@@ -82,12 +72,12 @@ public class ForecastWeatherCell: BaseTableViewCell {
     private func setupConstraints() {
         mainStackView.addArrangedSubview(dayLabel)
         mainStackView.addArrangedSubview(weatherImageView)
-        mainStackView.addArrangedSubview(maxTempLabel)
-        mainStackView.addArrangedSubview(minTempLabel)
+        mainStackView.addArrangedSubview(tempLabel)
         addSubview(mainStackView)
         
         weatherImageView.snp.makeConstraints {
             $0.width.height.equalTo(Constants.weatherImageViewWidthHeight)
+            $0.centerX.equalToSuperview()
         }
         
         mainStackView.snp.makeConstraints {
@@ -103,9 +93,8 @@ public class ForecastWeatherCell: BaseTableViewCell {
             return
         }
         
-        dayLabel.text = viewModel.dayName
-        maxTempLabel.text = viewModel.maxTemp
-        minTempLabel.text = viewModel.minTemp
+        dayLabel.text = viewModel.dayAndTime
+        tempLabel.text = viewModel.temp
         weatherImageView.kf.setImage(with: viewModel.imageUrl)
     }
 }

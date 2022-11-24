@@ -61,16 +61,6 @@ public extension IRequest {
             fatalError("Unable to create URL components")
         }
 
-//        var bodyParams: Data?
-//        if let parameters = parameters {
-//            switch method {
-//            case .get:
-//                components.queryItems = buildQueryParameters(with: parameters)
-//            default: // post/patch/put/delete
-//                bodyParams = buildBodyParametres(with: parameters)
-//            }
-//        }
-        print(parameters)
         if let parameters = parameters {
             components.queryItems = buildQueryParameters(with: parameters)
         }

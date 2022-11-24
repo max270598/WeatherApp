@@ -10,7 +10,8 @@ import UIKit
 import Resources
 
 private enum Constansts {
-//    static let
+    static let mainStackViewTopBottom: CGFloat = 5
+    static let mainStackViewLeftRight: CGFloat = 20
 }
 
 public class SubTitleTitleCell: BaseTableViewCell {
@@ -79,10 +80,8 @@ public class SubTitleTitleCell: BaseTableViewCell {
         contentView.addSubview(stackView)
         
         stackView.snp.makeConstraints {
-            $0.height.equalTo(44)
-            $0.top.bottom.equalToSuperview().inset(16)
-            $0.leading.equalToSuperview().inset(20)
-            $0.trailing.equalToSuperview().inset(70)
+            $0.top.bottom.equalToSuperview().inset(Constansts.mainStackViewTopBottom)
+            $0.left.right.equalToSuperview().inset(Constansts.mainStackViewLeftRight)
         }
     }
 }
