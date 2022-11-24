@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -486,6 +486,7 @@
 		A029256E99DCF2960439AABE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		A2910B24405BCEE823C81524 /* WeatherDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherDetailsViewController.swift; sourceTree = "<group>"; };
 		A41AB10513BC735F41176747 /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
+		A75B5316292FDA4600B2D43D /* CoFoSans-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "CoFoSans-Black.ttf"; sourceTree = "<group>"; };
 		A825B3C4B0354E7762D44F85 /* CityListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityListViewModel.swift; sourceTree = "<group>"; };
 		AE9202E1736FF18C014181D7 /* WeatherDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherDetailsViewModel.swift; sourceTree = "<group>"; };
 		B04ADD3D2902B0CF10596CE2 /* Enviroments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enviroments.swift; sourceTree = "<group>"; };
@@ -748,6 +749,7 @@
 		21FA2B460E19093E7176FBFA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				A75B5315292FD9F900B2D43D /* Fonts */,
 				E7B95CE49047248DDD8E367A /* Assets.xcassets */,
 				0AE5F63187319645F1790436 /* Generated */,
 				1F3AB6C7B2393497407B1AF9 /* Strings */,
@@ -969,6 +971,14 @@
 				BA3FB2E68FE9C37A8970DBA9 /* WeatherDetails.framework */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		A75B5315292FD9F900B2D43D /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				A75B5316292FDA4600B2D43D /* CoFoSans-Black.ttf */,
+			);
+			path = Fonts;
 			sourceTree = "<group>";
 		};
 		AA9F686F751F57CE86BD609E /* Configs */ = {
@@ -2077,9 +2087,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				OTHER_LDFLAGS = (
-					"-ObjC",
-				);
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.weatherapp.weatherapp.WeatherApp;
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 5.5.2;
@@ -2194,9 +2202,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				OTHER_LDFLAGS = (
-					"-ObjC",
-				);
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.weatherapp.weatherapp.WeatherApp;
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 5.5.2;

@@ -8,7 +8,10 @@
 ## Build generated
 build/
 DerivedData/
-Keys/ 
+Keys/
+
+### Swiftgen ###
+*+Generated.swift 
 
 ### OSX ###
 *.DS_Store
